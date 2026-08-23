@@ -98,7 +98,73 @@ dados = base.merge(
     on="numeroProcesso",
     how="left"
 )
+# Classificação complementar via DataJud
+CODIGOS_RESULTADO_TUTELA = {
+    332: "CONCEDIDA",
+    785: "NÃO CONCEDIDA",
+    889: "CONCEDIDA EM PARTE",
+}
 
+def classificar_resultado_datajud(numero_processo):
+    try:
+        headers = {
+            "Authorization": f"APIKey {st.secrets['DATAJUD_API_KEY']}",
+            "Content-Type": "application/json"
+        }
+
+        payload = {
+            "query": {
+                "match": {
+                    "numeroProcesso": str(numero_processo)
+                }
+            }
+        }
+
+        resposta = requests.post(
+            DATAJUD_URL,
+            headers=headers,
+            json=payload,
+            timeout=30
+        )
+
+        if resposta.status_code != 200:
+            return None
+
+        conteudo = resposta.json()
+        hits = conteudo.get("hits", {}).get("hits", [])
+
+        if not hits:
+            return None
+
+        movimentos = hits[0].get("_source", {}).get("movimentos", [])
+
+        encontrados = []
+
+        for movimento in movimentos:
+            try:
+                codigo = int(movimento.get("codigo"))
+            except (TypeError, ValueError):
+                continue
+
+            if codigo in CODIGOS_RESULTADO_TUTELA:
+                encontrados.append((
+                    movimento.get("dataHora", ""),
+                    codigo
+                ))
+
+        if not encontrados:
+            return None
+
+        # Primeira decisão de tutela identificável cronologicamente
+        encontrados.sort(key=lambda x: x[0])
+        codigo_primeira = encontrados[0][1]
+
+        return CODIGOS_RESULTADO_TUTELA[codigo_primeira]
+
+    except Exception:
+        return None
+        resultado_teste_classificacao = classificar_resultado_datajud("08493283320258100001")
+st.write("TESTE CLASSIFICAÇÃO AUTOMÁTICA:", resultado_teste_classificacao)
 def converter_data(valor):
 
     if pd.isna(valor):
