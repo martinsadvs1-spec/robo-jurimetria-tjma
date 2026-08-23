@@ -378,7 +378,7 @@ if numero_pesquisa:
     )
 
     processo_encontrado = base_pesquisa[
-        base_pesquisa["numero_busca"] == numero_limpo
+      base_pesquisa["numero_busca"].str.lstrip("0") == numero_limpo.lstrip("0")
     ].copy()
 
     if processo_encontrado.empty:
