@@ -675,6 +675,12 @@ if numero_pesquisa:
                 regex=True
             )
         )
+
+                    tabela_prioritaria["Resultado"] = (
+            tabela_prioritaria["Resultado"]
+            .fillna("Não identificado")
+            .replace("None", "Não identificado")
+        )
                     st.dataframe(
             tabela_prioritaria,
             use_container_width=True,
