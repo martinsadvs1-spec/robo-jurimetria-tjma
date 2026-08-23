@@ -494,6 +494,26 @@ if numero_pesquisa:
             ascending=False
         )
 
+        semelhantes["grau_semelhanca"] = semelhantes["pontos_semelhanca"].apply(
+            lambda pontos: (
+                "ALTA"
+                if pontos >= 5
+                else "MÉDIA"
+                if pontos == 4
+                else "BAIXA"
+            )
+        )
+
+        alta = (semelhantes["grau_semelhanca"] == "ALTA").sum()
+        media = (semelhantes["grau_semelhanca"] == "MÉDIA").sum()
+        baixa = (semelhantes["grau_semelhanca"] == "BAIXA").sum()
+
+        col_alta, col_media, col_baixa = st.columns(3)
+
+        col_alta.metric("Alta similaridade", int(alta))
+        col_media.metric("Média similaridade", int(media))
+        col_baixa.metric("Baixa similaridade", int(baixa))
+
         st.metric(
             "Casos semelhantes encontrados",
             len(semelhantes)
