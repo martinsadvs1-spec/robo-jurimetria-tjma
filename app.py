@@ -683,7 +683,8 @@ if numero_pesquisa:
                     "assuntos",
                     "resultado",
                     "dias_ate_decisao",
-                    "pontos_semelhanca"
+                    "pontos_semelhanca",
+                    "assuntos_coincidentes"
                 ]
             ]
             .copy()
@@ -694,7 +695,8 @@ if numero_pesquisa:
                     "assuntos": "Assuntos",
                     "resultado": "Resultado",
                     "dias_ate_decisao": "Dias até decisão",
-                    "pontos_semelhanca": "Pontuação de semelhança"
+                    "pontos_semelhanca": "Pontuação de semelhança",
+                    "assuntos_coincidentes": "Assuntos coincidentes"
                 }
             )
         )
@@ -709,6 +711,12 @@ if numero_pesquisa:
                 r"\1-\2.\3.\4.\5.\6",
                 regex=True
             )
+        )
+                    tabela_prioritaria["Assuntos coincidentes"] = (
+            tabela_prioritaria["Assuntos coincidentes"]
+            .astype(int)
+            .astype(str)
+            + f" de {total_assuntos_referencia}"
         )
 
                     tabela_prioritaria["Resultado"] = (
