@@ -684,7 +684,8 @@ if numero_pesquisa:
                     "resultado",
                     "dias_ate_decisao",
                     "pontos_semelhanca",
-                    "assuntos_coincidentes"
+                    "assuntos_coincidentes",
+                    "percentual_assuntos_coincidentes"
                 ]
             ]
             .copy()
@@ -696,7 +697,8 @@ if numero_pesquisa:
                     "resultado": "Resultado",
                     "dias_ate_decisao": "Dias até decisão",
                     "pontos_semelhanca": "Pontuação de semelhança",
-                    "assuntos_coincidentes": "Assuntos coincidentes"
+                    "assuntos_coincidentes": "Assuntos coincidentes",
+                    "percentual_assuntos_coincidentes": "Similaridade temática"
                 }
             )
         )
@@ -712,14 +714,18 @@ if numero_pesquisa:
                 regex=True
             )
         )
-                    tabela_prioritaria["Assuntos coincidentes"] = (
+        tabela_prioritaria["Assuntos coincidentes"] = (
             tabela_prioritaria["Assuntos coincidentes"]
             .astype(int)
             .astype(str)
             + f" de {total_assuntos_referencia}"
         )
+        tabela_prioritaria["Similaridade temática"] = (
+            tabela_prioritaria["Similaridade temática"]
+            .apply(lambda x: f"{x * 100:.1f}%")
+        )
 
-                    tabela_prioritaria["Resultado"] = (
+        tabela_prioritaria["Resultado"] = (
             tabela_prioritaria["Resultado"]
             .fillna("Não identificado")
             .replace("None", "Não identificado")
