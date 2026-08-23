@@ -395,10 +395,9 @@ if numero_pesquisa:
 
         col1, col2 = st.columns(2)
 
-        with col1:
-
+       with col1:
             st.markdown("**Número do processo**")
-           st.write(registro.get("numeroProcesso", "-"))
+            st.write(registro.get("numeroProcesso", "-"))
 
             st.markdown("**Classe processual**")
             st.write(registro.get("classe", "-"))
