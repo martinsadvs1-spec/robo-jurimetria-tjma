@@ -485,7 +485,8 @@ if numero_pesquisa:
             ] += 1
 
         semelhantes = semelhantes[
-            semelhantes["pontos_semelhanca"] > 0
+    (semelhantes["classe"].astype(str) == classe_referencia)
+    & (semelhantes["pontos_semelhanca"] >= 3)
         ].copy()
 
         semelhantes = semelhantes.sort_values(
