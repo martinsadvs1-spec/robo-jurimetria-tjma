@@ -681,6 +681,18 @@ if numero_pesquisa:
             .fillna("Não identificado")
             .replace("None", "Não identificado")
         )
+
+                    tabela_prioritaria["Dias até decisão"] = (
+            pd.to_numeric(
+                tabela_prioritaria["Dias até decisão"],
+                errors="coerce"
+            )
+            .apply(
+                lambda x: f"{x:.2f} dias"
+                if pd.notna(x)
+                else "Não identificado"
+            )
+        )
                     st.dataframe(
             tabela_prioritaria,
             use_container_width=True,
