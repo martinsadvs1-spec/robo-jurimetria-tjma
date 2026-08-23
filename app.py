@@ -663,6 +663,18 @@ if numero_pesquisa:
                 }
             )
         )
+
+                    tabela_prioritaria["Processo"] = (
+            tabela_prioritaria["Processo"]
+            .astype(str)
+            .str.replace(r"\D", "", regex=True)
+            .str.zfill(20)
+            .str.replace(
+                r"(\d{7})(\d{2})(\d{4})(\d)(\d{2})(\d{4})",
+                r"\1-\2.\3.\4.\5.\6",
+                regex=True
+            )
+        )
                     st.dataframe(
             tabela_prioritaria,
             use_container_width=True,
