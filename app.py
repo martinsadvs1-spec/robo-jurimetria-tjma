@@ -567,6 +567,64 @@ if numero_pesquisa:
             len(grupo_prioritario) - decisoes_identificadas
         )
 
+        if decisoes_identificadas > 0:
+            perc_concedidas = (
+                concedidas_prioritario / decisoes_identificadas
+            ) * 100
+
+            perc_parcial = (
+                parcial_prioritario / decisoes_identificadas
+            ) * 100
+
+            perc_nao_concedidas = (
+                nao_concedidas_prioritario / decisoes_identificadas
+            ) * 100
+
+            dias_prioritarios = pd.to_numeric(
+                grupo_prioritario["dias_ate_decisao"],
+                errors="coerce"
+            ).dropna()
+
+            mediana_prioritaria = (
+                dias_prioritarios.median()
+                if not dias_prioritarios.empty
+                else None
+            )
+            st.subheader("📊 Jurimetria do grupo prioritário")
+            c1, c2, c3, c4 = st.columns(4)
+
+            c1.metric(
+                "Decisões identificadas",
+                int(decisoes_identificadas)
+            )
+
+            c2.metric(
+                "Concedidas",
+                f"{int(concedidas_prioritario)} ({perc_concedidas:.1f}%)"
+            )
+
+            c3.metric(
+                "Concedidas em parte",
+                f"{int(parcial_prioritario)} ({perc_parcial:.1f}%)"
+            )
+
+            c4.metric(
+                "Não concedidas",
+                f"{int(nao_concedidas_prioritario)} ({perc_nao_concedidas:.1f}%)"
+            )
+
+            st.metric(
+                "Sem resultado identificado",
+                int(sem_resultado)
+            )
+
+            if mediana_prioritaria is not None:
+                st.metric(
+                    "Mediana até decisão",
+                    f"{mediana_prioritaria:.2f} dias"
+                )
+
+           
         
 
         st.metric(
