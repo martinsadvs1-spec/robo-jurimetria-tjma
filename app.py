@@ -567,35 +567,7 @@ if numero_pesquisa:
             len(grupo_prioritario) - decisoes_identificadas
         )
 
-        resultados_prioritarios = (
-            grupo_prioritario["resultado"]
-            .fillna("")
-            .astype(str)
-            .str.strip()
-            .str.upper()
-        )
-
-        concedidas_prioritario = (
-            resultados_prioritarios == "CONCEDIDA"
-        ).sum()
-
-        parcial_prioritario = (
-            resultados_prioritarios == "CONCEDIDA EM PARTE"
-        ).sum()
-
-        nao_concedidas_prioritario = (
-            resultados_prioritarios == "NÃO CONCEDIDA"
-        ).sum()
-
-        decisoes_identificadas = (
-            concedidas_prioritario
-            + parcial_prioritario
-            + nao_concedidas_prioritario
-        )
-
-        sem_resultado = (
-            len(grupo_prioritario) - decisoes_identificadas
-        )
+        
 
         st.metric(
             "Casos semelhantes encontrados",
