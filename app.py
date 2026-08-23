@@ -435,7 +435,7 @@ if numero_pesquisa:
             "Os dados exibidos correspondem às informações "
             "existentes na base pública utilizada pelo robô."
         )
- st.divider()
+         st.divider()
 
         st.subheader("🧭 Casos Semelhantes")
 
