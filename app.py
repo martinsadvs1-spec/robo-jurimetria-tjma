@@ -398,7 +398,26 @@ if numero_pesquisa:
         with col1:
 
             st.markdown("**Número do processo**")
-            st.write(registro.get("numeroProcesso", "-"))
+            numero_exibicao = str(
+    registro.get("numeroProcesso", "")
+)
+
+numero_exibicao = "".join(
+    c for c in numero_exibicao if c.isdigit()
+)
+
+numero_exibicao = numero_exibicao.zfill(20)
+
+numero_formatado = (
+    f"{numero_exibicao[:7]}-"
+    f"{numero_exibicao[7:9]}."
+    f"{numero_exibicao[9:13]}."
+    f"{numero_exibicao[13]}."
+    f"{numero_exibicao[14:16]}."
+    f"{numero_exibicao[16:]}"
+)
+
+st.write(numero_formatado)
 
             st.markdown("**Classe processual**")
             st.write(registro.get("classe", "-"))
