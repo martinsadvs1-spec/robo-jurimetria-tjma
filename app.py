@@ -343,3 +343,96 @@ st.caption(
     "Os resultados são descritivos e não representam "
     "garantia ou probabilidade individual de êxito."
 )
+# ============================================================
+# V2.0 — PESQUISA DIRETA DE PROCESSO
+# ============================================================
+
+st.divider()
+
+st.header("🔎 Pesquisar Processo")
+
+st.caption(
+    "Consulte diretamente um processo existente "
+    "na base jurimétrica."
+)
+
+numero_pesquisa = st.text_input(
+    "Número do processo",
+    placeholder="Ex.: 0862733-39.2025.8.10.0001"
+)
+
+if numero_pesquisa:
+
+    numero_limpo = "".join(
+        caractere
+        for caractere in str(numero_pesquisa)
+        if caractere.isdigit()
+    )
+
+    base_pesquisa = dados.copy()
+
+    base_pesquisa["numero_busca"] = (
+        base_pesquisa["numeroProcesso"]
+        .astype(str)
+        .str.replace(r"\D", "", regex=True)
+    )
+
+    processo_encontrado = base_pesquisa[
+        base_pesquisa["numero_busca"] == numero_limpo
+    ].copy()
+
+    if processo_encontrado.empty:
+
+        st.warning(
+            "⚠️ Processo não localizado na base atual."
+        )
+
+    else:
+
+        st.success("✅ Processo localizado")
+
+        registro = processo_encontrado.iloc[0]
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            st.markdown("**Número do processo**")
+            st.write(registro.get("numeroProcesso", "-"))
+
+            st.markdown("**Classe processual**")
+            st.write(registro.get("classe", "-"))
+
+            st.markdown("**Assuntos**")
+            st.write(registro.get("assuntos", "-"))
+
+        with col2:
+
+            st.markdown("**Resultado da primeira tutela**")
+
+            resultado_processo = registro.get(
+                "resultado",
+                "-"
+            )
+
+            if pd.isna(resultado_processo):
+                st.write("Resultado não identificado.")
+            else:
+                st.write(resultado_processo)
+
+            st.markdown("**Dias até a decisão**")
+
+            dias_processo = registro.get(
+                "dias_ate_decisao",
+                None
+            )
+
+            if pd.notna(dias_processo):
+                st.write(f"{dias_processo:.2f} dias")
+            else:
+                st.write("Tempo não calculável.")
+
+        st.caption(
+            "Os dados exibidos correspondem às informações "
+            "existentes na base pública utilizada pelo robô."
+        )
