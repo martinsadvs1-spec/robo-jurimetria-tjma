@@ -618,7 +618,7 @@ if numero_pesquisa:
                 int(sem_resultado)
             )
 
-                    cobertura_resultados = (
+            cobertura_resultados = (
             decisoes_identificadas / len(grupo_prioritario) * 100
             if len(grupo_prioritario) > 0
             else 0
