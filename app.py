@@ -472,7 +472,7 @@ if numero_pesquisa:
             == classe_referencia,
             "pontos_semelhanca"
         ] += 2
-
+        semelhantes["assuntos_em_comum"] = ""
         for assunto in lista_assuntos:
             semelhantes.loc[
                 semelhantes["assuntos"]
@@ -483,6 +483,25 @@ if numero_pesquisa:
                 ),
                 "pontos_semelhanca"
             ] += 1
+            mascara_assunto = (
+                semelhantes["assuntos"]
+                .fillna("")
+                .str.contains(assunto, regex=False)
+            )
+
+            semelhantes.loc[
+                mascara_assunto,
+                "assuntos_em_comum"
+            ] = semelhantes.loc[
+                mascara_assunto,
+                "assuntos_em_comum"
+            ].apply(
+                lambda atual: (
+                    f"{atual} | {assunto}"
+                    if atual
+                    else assunto
+                )
+            )
 
         semelhantes = semelhantes[
     (semelhantes["classe"].astype(str) == classe_referencia)
@@ -685,7 +704,8 @@ if numero_pesquisa:
                     "dias_ate_decisao",
                     "pontos_semelhanca",
                     "assuntos_coincidentes",
-                    "percentual_assuntos_coincidentes"
+                    "percentual_assuntos_coincidentes",
+                    "assuntos_em_comum"
                 ]
             ]
             .copy()
@@ -698,7 +718,8 @@ if numero_pesquisa:
                     "dias_ate_decisao": "Dias até decisão",
                     "pontos_semelhanca": "Pontuação de semelhança",
                     "assuntos_coincidentes": "Assuntos coincidentes",
-                    "percentual_assuntos_coincidentes": "Similaridade temática"
+                    "percentual_assuntos_coincidentes": "Similaridade temática",
+                "assuntos_em_comum": "Assuntos em comum"
                 }
             )
         )
