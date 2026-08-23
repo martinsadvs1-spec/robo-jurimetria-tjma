@@ -514,6 +514,29 @@ if numero_pesquisa:
         col_media.metric("Média similaridade", int(media))
         col_baixa.metric("Baixa similaridade", int(baixa))
 
+         if alta > 0:
+            grupo_prioritario = semelhantes[
+                semelhantes["grau_semelhanca"] == "ALTA"
+            ].copy()
+            nome_grupo = "Alta similaridade"
+
+        elif media > 0:
+            grupo_prioritario = semelhantes[
+                semelhantes["grau_semelhanca"] == "MÉDIA"
+            ].copy()
+            nome_grupo = "Média similaridade"
+
+        else:
+            grupo_prioritario = semelhantes[
+                semelhantes["grau_semelhanca"] == "BAIXA"
+            ].copy()
+            nome_grupo = "Baixa similaridade"
+
+        st.subheader("🎯 Grupo comparativo prioritário")
+        st.write(
+            f"{nome_grupo}: {len(grupo_prioritario)} processos"
+        )
+
         st.metric(
             "Casos semelhantes encontrados",
             len(semelhantes)
