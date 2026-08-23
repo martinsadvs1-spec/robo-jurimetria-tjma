@@ -742,7 +742,7 @@ if numero_pesquisa:
                 else "Não identificado"
             )
         )
-                    st.dataframe(
+        st.dataframe(
             tabela_prioritaria,
             use_container_width=True,
             hide_index=True
