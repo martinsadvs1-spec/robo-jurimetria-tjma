@@ -632,17 +632,17 @@ if numero_pesquisa:
 
             c2.metric(
                 "Concedidas",
-                f"{int(concedidas_prioritario)} ({perc_concedidas:.1f}%)"
+                f"{int(concedidas_prioritario)} de {int(decisoes_identificadas)} ({perc_concedidas:.1f}%)"
             )
 
             c3.metric(
                 "Concedidas em parte",
-                f"{int(parcial_prioritario)} ({perc_parcial:.1f}%)"
+                f"{int(parcial_prioritario)} de {int(decisoes_identificadas)} ({perc_parcial:.1f}%)"
             )
 
             c4.metric(
                 "Não concedidas",
-                f"{int(nao_concedidas_prioritario)} ({perc_nao_concedidas:.1f}%)"
+                f"{int(nao_concedidas_prioritario)} de {int(decisoes_identificadas)} ({perc_nao_concedidas:.1f}%)"
             )
 
             st.metric(
