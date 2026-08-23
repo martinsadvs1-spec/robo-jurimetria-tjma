@@ -53,7 +53,36 @@ def consultar_datajud_teste():
     return resposta
 resposta_teste = consultar_datajud_teste()
 st.write("TESTE DATAJUD - STATUS:", resposta_teste.status_code)
-st.json(resposta_teste.json())
+dados_teste = resposta_teste.json()
+
+hits_teste = dados_teste.get("hits", {}).get("hits", [])
+
+if hits_teste:
+    movimentos_teste = hits_teste[0].get("_source", {}).get("movimentos", [])
+
+    linhas_movimentos = []
+
+    for mov in movimentos_teste:
+        complementos = mov.get("complementosTabelados", [])
+
+        detalhes = " | ".join(
+            [
+                f"{c.get('descricao', '')}: {c.get('nome', c.get('valor', ''))}"
+                for c in complementos
+            ]
+        )
+
+        linhas_movimentos.append({
+            "Código": mov.get("codigo"),
+            "Movimento": mov.get("nome"),
+            "Data": mov.get("dataHora"),
+            "Complementos": detalhes
+        })
+
+    st.write("MOVIMENTOS DO PROCESSO:")
+    st.dataframe(pd.DataFrame(linhas_movimentos), hide_index=True)
+else:
+    st.warning("Processo não localizado no DataJud.")
 @st.cache_data
 def carregar_dados():
 
