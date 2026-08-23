@@ -514,7 +514,7 @@ if numero_pesquisa:
         col_media.metric("Média similaridade", int(media))
         col_baixa.metric("Baixa similaridade", int(baixa))
 
-         if alta > 0:
+        if alta > 0:
             grupo_prioritario = semelhantes[
                 semelhantes["grau_semelhanca"] == "ALTA"
             ].copy()
