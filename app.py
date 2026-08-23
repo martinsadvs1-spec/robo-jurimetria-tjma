@@ -28,7 +28,7 @@ ARQUIVO_TUTELA = os.path.join(
 DATAJUD_URL = "https://api-publica.datajud.cnj.jus.br/api_publica_tjma/_search"
 
 def consultar_datajud_teste():
-    numero = "08859172420258100001"
+    numero = "08493283320258100001"
 
     headers = {
         "Authorization": f"APIKey {st.secrets['DATAJUD_API_KEY']}",
