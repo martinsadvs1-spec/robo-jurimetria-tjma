@@ -455,3 +455,88 @@ if numero_pesquisa:
             "Os dados exibidos correspondem às informações "
             "existentes na base pública utilizada pelo robô."
         )
+ st.divider()
+
+        st.subheader("🧭 Casos Semelhantes")
+
+        st.caption(
+            "Comparação automática com processos da mesma "
+            "classe e com assuntos coincidentes."
+        )
+
+        classe_referencia = str(
+            registro.get("classe", "")
+        )
+
+        assuntos_referencia = str(
+            registro.get("assuntos", "")
+        )
+
+        lista_assuntos = [
+            assunto.strip()
+            for assunto in assuntos_referencia.split("|")
+            if assunto.strip()
+        ]
+
+        semelhantes = dados.copy()
+
+        semelhantes = semelhantes[
+            semelhantes["numeroProcesso"].astype(str)
+            != str(registro.get("numeroProcesso", ""))
+        ].copy()
+
+        semelhantes["pontos_semelhanca"] = 0
+
+        semelhantes.loc[
+            semelhantes["classe"].astype(str)
+            == classe_referencia,
+            "pontos_semelhanca"
+        ] += 2
+
+        for assunto in lista_assuntos:
+            semelhantes.loc[
+                semelhantes["assuntos"]
+                .fillna("")
+                .str.contains(
+                    assunto,
+                    regex=False
+                ),
+                "pontos_semelhanca"
+            ] += 1
+
+        semelhantes = semelhantes[
+            semelhantes["pontos_semelhanca"] > 0
+        ].copy()
+
+        semelhantes = semelhantes.sort_values(
+            "pontos_semelhanca",
+            ascending=False
+        )
+
+        st.metric(
+            "Casos semelhantes encontrados",
+            len(semelhantes)
+        )
+
+        if semelhantes.empty:
+
+            st.warning(
+                "Nenhum caso semelhante foi localizado."
+            )
+
+        else:
+
+            st.dataframe(
+                semelhantes[
+                    [
+                        "numeroProcesso",
+                        "classe",
+                        "assuntos",
+                        "resultado",
+                        "dias_ate_decisao",
+                        "pontos_semelhanca"
+                    ]
+                ].head(20),
+                use_container_width=True,
+                hide_index=True
+            )
