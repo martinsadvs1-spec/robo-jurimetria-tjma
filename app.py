@@ -2,7 +2,7 @@
 import streamlit as st
 import pandas as pd
 import os
-
+import requests
 st.set_page_config(
     page_title="Robô de Jurimetria TJMA",
     layout="wide"
