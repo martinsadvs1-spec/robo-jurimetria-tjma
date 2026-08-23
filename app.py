@@ -618,6 +618,28 @@ if numero_pesquisa:
                 int(sem_resultado)
             )
 
+                    cobertura_resultados = (
+            decisoes_identificadas / len(grupo_prioritario) * 100
+            if len(grupo_prioritario) > 0
+            else 0
+        )
+
+        st.metric(
+            "Cobertura das decisões",
+            f"{cobertura_resultados:.1f}%"
+        )
+
+        st.caption(
+            f"{int(decisoes_identificadas)} de {len(grupo_prioritario)} processos "
+            "do grupo prioritário possuem resultado identificado."
+        )
+
+        if cobertura_resultados < 50:
+            st.warning(
+                "Amostra limitada: os percentuais de concessão e não concessão "
+                "devem ser interpretados com cautela."
+            )
+
             if mediana_prioritaria is not None:
                 st.metric(
                     "Mediana até decisão",
