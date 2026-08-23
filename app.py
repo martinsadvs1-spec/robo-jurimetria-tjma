@@ -640,17 +640,31 @@ if numero_pesquisa:
 
         else:
 
-            st.dataframe(
-                grupo_prioritario[
-                    [
-                        "numeroProcesso",
-                        "classe",
-                        "assuntos",
-                        "resultado",
-                        "dias_ate_decisao",
-                        "pontos_semelhanca"
-                    ]
-                ].head(20),
-                use_container_width=True,
-                hide_index=True
+                    tabela_prioritaria = (
+            grupo_prioritario[
+                [
+                    "numeroProcesso",
+                    "classe",
+                    "assuntos",
+                    "resultado",
+                    "dias_ate_decisao",
+                    "pontos_semelhanca"
+                ]
+            ]
+            .copy()
+            .rename(
+                columns={
+                    "numeroProcesso": "Processo",
+                    "classe": "Classe processual",
+                    "assuntos": "Assuntos",
+                    "resultado": "Resultado",
+                    "dias_ate_decisao": "Dias até decisão",
+                    "pontos_semelhanca": "Pontuação de semelhança"
+                }
             )
+        )
+                   st.dataframe(
+            tabela_prioritaria,
+            use_container_width=True,
+            hide_index=True
+        )
