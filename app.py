@@ -731,7 +731,7 @@ if numero_pesquisa:
             .replace("None", "Não identificado")
         )
 
-                    tabela_prioritaria["Dias até decisão"] = (
+        tabela_prioritaria["Dias até decisão"] = (
             pd.to_numeric(
                 tabela_prioritaria["Dias até decisão"],
                 errors="coerce"
