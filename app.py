@@ -395,7 +395,7 @@ if numero_pesquisa:
 
         col1, col2 = st.columns(2)
 
-       with col1:
+        with col1:
             st.markdown("**Número do processo**")
             st.write(registro.get("numeroProcesso", "-"))
 
@@ -435,7 +435,7 @@ if numero_pesquisa:
             "Os dados exibidos correspondem às informações "
             "existentes na base pública utilizada pelo robô."
         )
-         st.divider()
+        st.divider()
 
         st.subheader("🧭 Casos Semelhantes")
 
