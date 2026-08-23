@@ -628,7 +628,7 @@ if numero_pesquisa:
         
 
         st.metric(
-            "Casos semelhantes encontrados",
+            "Universo inicial de casos semelhantes",
             len(semelhantes)
         )
 
@@ -641,7 +641,7 @@ if numero_pesquisa:
         else:
 
             st.dataframe(
-                semelhantes[
+                grupo_prioritario[
                     [
                         "numeroProcesso",
                         "classe",
