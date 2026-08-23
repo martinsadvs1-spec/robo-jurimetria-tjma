@@ -24,6 +24,36 @@ ARQUIVO_TUTELA = os.path.join(
     "primeira_decisao_tutela.csv"
 )
 
+# TESTE DATAJUD - 1 PROCESSO
+DATAJUD_URL = "https://api-publica.datajud.cnj.jus.br/api_publica_tjma/_search"
+
+def consultar_datajud_teste():
+    numero = "08535527720268100001"
+
+    headers = {
+        "Authorization": f"APIKey {st.secrets['DATAJUD_API_KEY']}",
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "query": {
+            "match": {
+                "numeroProcesso": numero
+            }
+        }
+    }
+
+    resposta = requests.post(
+        DATAJUD_URL,
+        headers=headers,
+        json=payload,
+        timeout=30
+    )
+
+    return resposta
+resposta_teste = consultar_datajud_teste()
+st.write("TESTE DATAJUD - STATUS:", resposta_teste.status_code)
+st.json(resposta_teste.json())
 @st.cache_data
 def carregar_dados():
 
