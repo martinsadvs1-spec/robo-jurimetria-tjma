@@ -494,13 +494,26 @@ if numero_pesquisa:
             ascending=False
         )
 
-        semelhantes["grau_semelhanca"] = semelhantes["pontos_semelhanca"].apply(
-            lambda pontos: (
-                "ALTA"
-                if pontos >= 5
-                else "MÉDIA"
-                if pontos == 4
-                else "BAIXA"
+        semelhantes["assuntos_coincidentes"] = (
+            semelhantes["pontos_semelhanca"] - 2
+        )
+
+        total_assuntos_referencia = max(len(lista_assuntos), 1)
+
+        semelhantes["percentual_assuntos_coincidentes"] = (
+            semelhantes["assuntos_coincidentes"]
+            / total_assuntos_referencia
+        )
+
+        semelhantes["grau_semelhanca"] = (
+            semelhantes["percentual_assuntos_coincidentes"].apply(
+                lambda percentual: (
+                    "ALTA"
+                    if percentual == 1
+                    else "MÉDIA"
+                    if percentual >= 0.5
+                    else "BAIXA"
+                )
             )
         )
 
