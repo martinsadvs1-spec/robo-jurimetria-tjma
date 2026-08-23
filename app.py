@@ -163,8 +163,8 @@ def classificar_resultado_datajud(numero_processo):
 
     except Exception:
         return None
-        resultado_teste_classificacao = classificar_resultado_datajud("08493283320258100001")
-st.write("TESTE CLASSIFICAÇÃO AUTOMÁTICA:", resultado_teste_classificacao)
+        resultado_teste = classificar_resultado_datajud("08493283320258100001")
+st.write("TESTE CLASSIFICAÇÃO AUTOMÁTICA:", resultado_teste)
 def converter_data(valor):
 
     if pd.isna(valor):
