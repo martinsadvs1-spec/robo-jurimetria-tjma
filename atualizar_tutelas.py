@@ -40,7 +40,7 @@ CODIGOS_RESULTADO_TUTELA = {
 
 
 # Primeiro teste: consultar somente 10 processos
-LIMITE = 10
+LIMITE = 100
 
 
 def normalizar_numero(valor):
