@@ -163,29 +163,7 @@ def classificar_resultado_datajud(numero_processo):
 
     except Exception:
         return None
-# Complementa somente resultados ausentes
-dados["resultado"] = dados["resultado"].astype("object")
-
-mascara_sem_resultado = (
-    dados["resultado"].isna()
-    | dados["resultado"].astype(str).str.strip().isin(["", "nan", "None"])
-)
-
-indices_sem_resultado = dados.index[mascara_sem_resultado]
-
-# TESTE CONTROLADO: consulta apenas os 10 primeiros sem resultado
-for idx in indices_sem_resultado[:10]:
-    numero = dados.at[idx, "numeroProcesso"]
-
-    resultado_datajud = classificar_resultado_datajud(numero)
-
-    if resultado_datajud is not None:
-        dados.at[idx, "resultado"] = resultado_datajud
-
-st.write(
-    "TESTE COMPLEMENTAÇÃO DATAJUD:",
-    dados.loc[indices_sem_resultado[:10], ["numeroProcesso", "resultado"]]
-)    
+  
 def converter_data(valor):
 
     if pd.isna(valor):
