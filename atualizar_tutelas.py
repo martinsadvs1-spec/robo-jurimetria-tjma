@@ -40,7 +40,7 @@ CODIGOS_RESULTADO_TUTELA = {
 
 
 # Primeiro teste: consultar somente 10 processos
-LIMITE = 100
+
 
 
 def normalizar_numero(valor):
@@ -213,10 +213,7 @@ def main():
 
     novos_resultados = []
 
-    for numero in (
-        faltantes["numeroProcesso"]
-        .head(LIMITE)
-    ):
+    for numero in faltantes["numeroProcesso"]:
 
         print(f"Consultando {numero}...")
 
@@ -272,7 +269,7 @@ def main():
 
     print(
         "Consultados:",
-        min(LIMITE, len(faltantes))
+        len(faltantes)
     )
 
     print(
