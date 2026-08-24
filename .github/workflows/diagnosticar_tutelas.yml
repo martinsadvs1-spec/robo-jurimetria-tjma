@@ -1,0 +1,43 @@
+name: Diagnosticar Tutelas DataJud
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  diagnosticar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        run: |
+          pip install pandas requests
+
+      - name: Diagnosticar tutelas
+        env:
+          DATAJUD_API_KEY: ${{ secrets.DATAJUD_API_KEY }}
+        run: |
+          python diagnosticar_tutelas.py
+
+      - name: Mostrar diagnóstico
+        run: |
+          echo "Prévia do diagnóstico de tutelas:"
+          head -60 diagnostico_tutelas_datajud.csv
+
+      - name: Salvar diagnóstico no GitHub
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add diagnostico_tutelas_datajud.csv
+          git diff --cached --quiet || git commit -m "Diagnóstico detalhado de tutelas DataJud"
+          git push
